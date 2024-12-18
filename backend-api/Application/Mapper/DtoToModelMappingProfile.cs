@@ -16,6 +16,7 @@ public class DtoToModelMappingProfile : Profile
         #region sale
         CreateMap<RegisterSaleDto, Sale>().ReverseMap();
         CreateMap<RegisterSaleItemDto, SaleItem>().ReverseMap();
+        CreateMap<SaleItemDto, SaleItem>().ReverseMap();
         CreateMap<SaleDto, Sale>().ReverseMap();
         #endregion
     }
