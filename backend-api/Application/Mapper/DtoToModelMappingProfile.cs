@@ -12,5 +12,11 @@ public class DtoToModelMappingProfile : Profile
         CreateMap<BookCreateDto, Book>().ReverseMap();
         CreateMap<BookDto, Book>().ReverseMap();
         #endregion
+
+        #region sale
+        CreateMap<RegisterSaleDto, Sale>().ReverseMap();
+        CreateMap<RegisterSaleItemDto, SaleItem>().ReverseMap();
+        CreateMap<SaleDto, Sale>().ReverseMap();
+        #endregion
     }
 }

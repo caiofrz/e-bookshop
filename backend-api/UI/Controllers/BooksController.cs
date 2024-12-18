@@ -81,7 +81,7 @@ public class BooksController : ControllerBase
     {
         var bookModel = _mapper.Map<Book>(dto);
         var newBook = await _bookService.CreateAsync(bookModel);
-        var response = ApiResponseHelper.CriarRespostaSucesso((int)HttpStatusCode.OK,
+        var response = ApiResponseHelper.CriarRespostaSucesso((int)HttpStatusCode.Created,
                                                       "Livro cadastrado com sucesso",
                                                       _mapper.Map<BookDto>(newBook));
 
@@ -107,7 +107,7 @@ public class BooksController : ControllerBase
         var book = _mapper.Map<Book>(dto);
         var updatedBook = await _bookService.UpdateAsync(id, book);
 
-        var response = ApiResponseHelper.CriarRespostaSucesso((int)HttpStatusCode.OK,
+        var response = ApiResponseHelper.CriarRespostaSucesso((int)HttpStatusCode.Created,
                                                       "Livro editado com sucesso",
                                                       _mapper.Map<BookDto>(updatedBook));
         return Created(nameof(Update), response);

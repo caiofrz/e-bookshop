@@ -34,10 +34,12 @@ public static class DependencyInjectionConfig
         
         #region repositories
         services.AddTransient<IBookRepository, BookRepository>();
+        services.AddTransient<ISaleRepository, SaleRepository>();
         #endregion
 
         #region services
         services.AddTransient<IBookService, BookService>();
+        services.AddTransient<ISaleService, SaleService>();
         #endregion
 
         return services;
