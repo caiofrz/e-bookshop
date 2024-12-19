@@ -1,0 +1,83 @@
+@page
+@model RegisterSaleModel
+@{
+    ViewData["Title"] = "Registrar Venda";
+}
+
+<h2 class="my-4">Registrar Nova Venda</h2>
+
+<form method="post">
+    <div id="booksContainer" class="mb-3">
+        <label for="books" class="form-label">Adicionar Livros</label>
+        <div class="row mb-2 bookRow" style="display: none;">
+            <div class="col-md-6">
+                <select class="form-select" name="Books[0].BookId" onchange="updateStock(this)" required>
+                    <option value="" disabled selected>Selecione um livro</option>
+                    @foreach (var book in Model.AvailableBooks)
+                    {
+                        <option value="@book.Id" data-stock="@book.StockQuantity" data-price="@book.Price">
+                            @book.Title (@book.Isbn)
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" name="Books[0].Quantity" min="1" placeholder="Quantidade" oninput="updateTotal()" required />
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="Books[0].Price" readonly />
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="total" class="form-label">Total da Venda</label>
+        <input type="text" id="total" class="form-control" readonly />
+    </div>
+    <button type="button" class="btn btn-primary" onclick="addBookRow()">Adicionar Livro</button>
+    <button type="submit" class="btn btn-success">Registrar Venda</button>
+</form>
+<script>
+    function addBookRow() {
+        var container = document.getElementById('booksContainer');
+        var rowTemplate = document.querySelector('.bookRow');
+        var newRow = rowTemplate.cloneNode(true);
+        newRow.style.display = 'flex';
+        var index = container.getElementsByClassName('bookRow').length;
+        newRow.innerHTML = newRow.innerHTML.replace(/\[0\]/g, '[' + index + ']');
+        newRow.querySelectorAll('input, select').forEach(function(input) {
+            input.disabled = false;
+            input.name = input.name.replace('[0]', '[' + index + ']');
+        });
+        container.appendChild(newRow);
+    }
+
+    function updateStock(selectElement) {
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var price = selectedOption.getAttribute('data-price');
+        var row = selectElement.closest('.row');
+        row.querySelector('input[name$=".Price"]').value = price;
+        updateTotal();
+    }
+
+    function updateTotal() {
+        var total = 0;
+        document.querySelectorAll('.bookRow').forEach(function(row) {
+            var quantity = parseInt(row.querySelector('input[name$=".Quantity"]').value);
+            var price = parseFloat(row.querySelector('input[name$=".Price"]').value.replace(',', '.'));
+            if (quantity && price) {
+                total += quantity * price;
+            }
+        });
+        document.getElementById('total').value = total.toFixed(2);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var initialRow = document.querySelector('.bookRow');
+        initialRow.style.display = 'flex';
+        initialRow.querySelectorAll('input, select').forEach(function(input) {
+            input.disabled = false;
+        });
+        updateTotal();
+    });
+</script>
+

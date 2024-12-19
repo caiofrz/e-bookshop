@@ -6,6 +6,10 @@ public class RegisterSaleDto
 {
     [Required]
     public List<RegisterSaleItemDto> Items { get; set; }
+    
+    [Required(ErrorMessage = "O total é obrigatório")]
+    [Range(0.01, double.MaxValue, ErrorMessage = "O valor mínimo é 0.01")]
+    public decimal Total { get; set; }
 }
 
 public class RegisterSaleItemDto
