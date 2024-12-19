@@ -2,6 +2,7 @@ using backend_api.Application.Exceptions;
 using backend_api.Domain.Interfaces.Repositories;
 using backend_api.Domain.Interfaces.Services;
 using backend_api.Domain.Models;
+using backend_api.Domain.Models.Queries;
 using backend_api.Infraestructure.Data;
 
 namespace backend_api.Application.Services;
@@ -19,6 +20,11 @@ public class SaleService : ISaleService
         _bookRepository = bookRepository;
         _saleRepository = saleRepository;
         _context = context;
+    }
+
+    public async Task<IEnumerable<Sale>> GetAllAsync(SalesQueryParams queryParams)
+    {
+        return await _saleRepository.GetAllAsync(queryParams);
     }
 
     public async Task<Sale> RegisterSaleAsync(Sale sale)

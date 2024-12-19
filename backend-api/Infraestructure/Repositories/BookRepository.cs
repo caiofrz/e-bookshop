@@ -1,5 +1,7 @@
+using backend_api.Application.Utils;
 using backend_api.Domain.Interfaces.Repositories;
 using backend_api.Domain.Models;
+using backend_api.Domain.Models.Queries;
 using backend_api.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,11 +18,16 @@ public class BookRepository : IBookRepository
         _dbSet = _context.Set<Book>();
     }
 
-    public async Task<IEnumerable<Book>> GetAllAsync()
+    public async Task<IEnumerable<Book>> GetAllAsync(BooksQueryParams queryParams)
     {
-        return await _context.Books
-                             .AsNoTracking()
-                             .ToListAsync();
+        var query = _context.Books.AsQueryable();
+
+        if (queryParams.MaxStockLimit > 0)
+            query = query.Where(book => book.StockQuantity <= queryParams.MaxStockLimit);
+
+        return await query.Paginar(queryParams.Page, queryParams.PageSize)
+                          .AsNoTracking()
+                          .ToListAsync();
     }
 
     public async Task<Book> GetByIdAsync(int id)
