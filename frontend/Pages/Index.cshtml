@@ -1,10 +1,30 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Página Inicial";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .home-page {
+        color: #1184f8;
+        padding: 50px;
+        text-align: center;
+    }
+    .home-page h1 {
+        font-size: 3em;
+        margin-bottom: 20px;
+    }
+    .home-page p {
+        font-size: 1.5em;
+    }
+</style>
+
+<div class="home-page">
+    <h1 class="display-4">Bem-vindo à e-Bookshop</h1>
+    <p>Seu ponto único para todas as suas necessidades de leitura.</p>
+    <a href="/Reports/BooksReport" class="btn btn-sm btn-outline-info">Consultar estoque de livros</a>
+    <a href="/Reports/SalesReport" class="btn btn-sm btn-outline-info">Consultar vendas</a>
+    <div class="mt-5">
+        <a href="/Sales/RegisterSale" class="btn btn-lg btn-success">Nova venda</a>
+    </div>
 </div>
