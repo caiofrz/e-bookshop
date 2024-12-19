@@ -1,0 +1,53 @@
+@page "/Books"
+@model Pages.Books.IndexModel
+@{
+    ViewData["Title"] = "Livros";
+}
+
+<h2>Livros</h2>
+<a class="btn btn-success mb-3" asp-page="/Books/Create">Novo livro</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Titulo</th>
+            <th>Categoria</th>
+            <th>ISBN</th>
+            <th>Autores</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model.Books)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Category</td>
+                <td>@book.Isbn</td>
+                <td>@string.Join(", ", book.Authors)</td>
+                <td>@book.Price.ToString("C")</td>
+                <td>@book.StockQuantity</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" asp-page="/Books/Edit" asp-route-id="@book.Id">Editar</a>
+                    <form method="post" asp-page-handler="Delete" style="display:inline;">
+                        <input type="hidden" name="id" value="@book.Id" />
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este livro?')">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* <nav class="d-flex justify-content-center">
+    <ul class="pagination">
+        @for (int i = 1; i <= 10; i++)
+        {
+            <li class="page-item @(i == 1 ? "active" : "")">
+                <a class="page-link" asp-page="/Books" asp-route-page="@i">@i</a>
+            </li>
+        }
+    </ul>
+</nav> *@
