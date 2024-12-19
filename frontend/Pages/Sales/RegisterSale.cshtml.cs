@@ -15,6 +15,7 @@ public class RegisterSaleModel : PageModel
     [BindProperty]
     public List<SaleItem> Books { get; set; } = new();
     public List<Book> AvailableBooks { get; set; } = new();
+    public decimal Total { get; set; }
 
     public async Task OnGetAsync()
     {
@@ -43,13 +44,17 @@ public class RegisterSaleModel : PageModel
             return Page();
         }
 
+        Total = Books.Sum(item => item.Quantity * item.Price);
+
         var sale = new Sale
         {
             Items = Books.Select(item => new SaleItem
             {
                 BookId = item.BookId,
-                Quantity = item.Quantity
-            }).ToList()
+                Quantity = item.Quantity,
+                Price = item.Price
+            }).ToList(),
+            Total = Total
         };
 
         var client = _httpClientFactory.CreateClient("API");
@@ -68,10 +73,12 @@ public class RegisterSaleModel : PageModel
 public class Sale
 {
     public List<SaleItem> Items { get; set; }
+    public decimal Total { get; set; }
 }
 
 public class SaleItem
 {
     public int BookId { get; set; }
     public int Quantity { get; set; }
+    public decimal Price { get; set; }
 }

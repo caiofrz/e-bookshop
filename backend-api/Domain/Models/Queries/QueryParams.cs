@@ -9,5 +9,5 @@ public class QueryParams
     public int Page { get; set; } = 1;
  
     [Range(1, 20, ErrorMessage = "A quantidade de registros por página deve ser entre {1} e {2}")]
-    public int PageSize { get; set; } = 20;
+    public int PageSize { get; set; } = 100;
 }

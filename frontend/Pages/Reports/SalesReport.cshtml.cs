@@ -75,6 +75,7 @@ public class SaleResponse
     public int Id { get; set; }
     public DateTime SaleDate { get; set; }
     public List<SaleItemResponse> Items { get; set; }
+    public decimal Total { get; set; }
 }
 
 public class SaleItemResponse

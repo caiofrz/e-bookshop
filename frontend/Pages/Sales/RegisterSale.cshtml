@@ -22,12 +22,16 @@
                 </select>
             </div>
             <div class="col-md-3">
-                <input type="number" class="form-control" name="Books[0].Quantity" min="1" placeholder="Quantidade" required />
+                <input type="number" class="form-control" name="Books[0].Quantity" min="1" placeholder="Quantidade" oninput="updateTotal()" required />
             </div>
             <div class="col-md-3">
                 <input type="text" class="form-control" name="Books[0].Price" readonly />
             </div>
         </div>
+    </div>
+    <div class="mb-3">
+        <label for="total" class="form-label">Total da Venda</label>
+        <input type="text" id="total" class="form-control" readonly />
     </div>
     <button type="button" class="btn btn-primary" onclick="addBookRow()">Adicionar Livro</button>
     <button type="submit" class="btn btn-success">Registrar Venda</button>
@@ -49,10 +53,22 @@
 
     function updateStock(selectElement) {
         var selectedOption = selectElement.options[selectElement.selectedIndex];
-        var stock = selectedOption.getAttribute('data-stock');
         var price = selectedOption.getAttribute('data-price');
         var row = selectElement.closest('.row');
         row.querySelector('input[name$=".Price"]').value = price;
+        updateTotal();
+    }
+
+    function updateTotal() {
+        var total = 0;
+        document.querySelectorAll('.bookRow').forEach(function(row) {
+            var quantity = parseInt(row.querySelector('input[name$=".Quantity"]').value);
+            var price = parseFloat(row.querySelector('input[name$=".Price"]').value.replace(',', '.'));
+            if (quantity && price) {
+                total += quantity * price;
+            }
+        });
+        document.getElementById('total').value = total.toFixed(2);
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -61,6 +77,7 @@
         initialRow.querySelectorAll('input, select').forEach(function(input) {
             input.disabled = false;
         });
+        updateTotal();
     });
 </script>
 
