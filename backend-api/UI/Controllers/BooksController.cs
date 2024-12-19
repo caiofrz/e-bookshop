@@ -5,6 +5,7 @@ using backend_api.Application.Filters;
 using backend_api.Application.Helpers;
 using backend_api.Domain.Interfaces.Services;
 using backend_api.Domain.Models;
+using backend_api.Domain.Models.Queries;
 using backend_api.UI.Responses;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,17 +32,18 @@ public class BooksController : ControllerBase
     /// </summary>
     /// <response code="200">Sucesso ao listar os registros ou mensagem indicando que nenhum registro foi encontrado para esta pesquisa.</response>
     /// <response code="500">Erro inesperado.</response>
-    [ProducesResponseType(typeof(ApiResponse<ICollection<BookDto>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<BooksResponseDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] BooksQueryParams queryParams)
     {
-        var books = await _bookService.GetAllAsync();
-        var booksDtos = books?.Select(_mapper.Map<BookDto>);
+        var books = await _bookService.GetAllAsync(queryParams);
+        var booksList = books?.Select(_mapper.Map<BookDto>);
+        var booksDto = new BooksResponseDto(booksList, queryParams.Page, queryParams.PageSize);
 
         var response = ApiResponseHelper.CriarRespostaSucesso((int)HttpStatusCode.OK,
                                                               "Livros recuperados com sucesso",
-                                                              booksDtos);
+                                                              booksDto);
         return Ok(response);
     }
 

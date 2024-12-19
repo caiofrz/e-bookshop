@@ -2,6 +2,7 @@ using backend_api.Application.Exceptions;
 using backend_api.Domain.Interfaces.Repositories;
 using backend_api.Domain.Interfaces.Services;
 using backend_api.Domain.Models;
+using backend_api.Domain.Models.Queries;
 
 namespace backend_api.Application.Services;
 
@@ -14,9 +15,9 @@ public class BookService : IBookService
         _bookRepository = bookRepository;
     }
 
-    public async Task<IEnumerable<Book>> GetAllAsync()
+    public async Task<IEnumerable<Book>> GetAllAsync(BooksQueryParams queryParams)
     {
-        return await _bookRepository.GetAllAsync();
+        return await _bookRepository.GetAllAsync(queryParams);
     }
 
     public async Task<Book> GetByIdAsync(int id)

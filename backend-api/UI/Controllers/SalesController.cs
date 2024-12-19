@@ -5,6 +5,7 @@ using backend_api.Application.Filters;
 using backend_api.Application.Helpers;
 using backend_api.Domain.Interfaces.Services;
 using backend_api.Domain.Models;
+using backend_api.Domain.Models.Queries;
 using backend_api.UI.Responses;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,26 @@ public class SalesController : ControllerBase
     {
         _saleService = saleService;
         _mapper = mapper;
+    }
+
+    /// <summary>
+    /// Retorna uma lista das vendas registradas.
+    /// </summary>
+    /// <response code="200">Sucesso ao listar os registros ou mensagem indicando que nenhum registro foi encontrado para esta pesquisa.</response>
+    /// <response code="500">Erro inesperado.</response>
+    [ProducesResponseType(typeof(ApiResponse<SaleResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status500InternalServerError)]
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] SalesQueryParams queryParams)
+    {
+        var sales = await _saleService.GetAllAsync(queryParams);
+        var salesList = sales?.Select(_mapper.Map<SaleDto>);
+        var salesDto = new SaleResponseDto(salesList, queryParams.Page, queryParams.PageSize);
+
+        var response = ApiResponseHelper.CriarRespostaSucesso((int)HttpStatusCode.OK,
+                                                              "Vendas recuperados com sucesso",
+                                                              salesDto);
+        return Ok(response);
     }
 
     /// <summary>
