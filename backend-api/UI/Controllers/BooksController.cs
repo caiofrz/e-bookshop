@@ -39,7 +39,7 @@ public class BooksController : ControllerBase
     {
         var books = await _bookService.GetAllAsync(queryParams);
         var booksList = books?.Select(_mapper.Map<BookDto>);
-        var booksDto = new BooksResponseDto(booksList, queryParams.Page, queryParams.PageSize);
+        var booksDto = new BooksResponseDto(booksList, queryParams.Page, queryParams.PageSize, await _bookService.GetTotalCountAsync());
 
         var response = ApiResponseHelper.CriarRespostaSucesso((int)HttpStatusCode.OK,
                                                               "Livros recuperados com sucesso",

@@ -11,4 +11,5 @@ public interface IBookRepository
     Task<Book> UpdateAsync(Book entity);
     Task DeleteAsync(int id);
     Task<bool> ExistsByISBNAsync(string isbn);
+    Task<int> GetTotalCountAsync();
 }

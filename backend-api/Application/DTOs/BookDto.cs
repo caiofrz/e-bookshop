@@ -5,13 +5,14 @@ public class BooksResponseDto
     public IEnumerable<BookDto> Books { get; set; }
     public PaginationResponseDto Pagination { get; set; } = new();
 
-    public BooksResponseDto(IEnumerable<BookDto> books, params int[] pagination)
+    public BooksResponseDto(IEnumerable<BookDto> books, int page, int pageSize, int totalItems)
     {
         Books = books;
         Pagination = new()
         {
-            Page = pagination[0],
-            PageSize = pagination[1],
+            Page = page,
+            PageSize = pageSize,
+            TotalItems = totalItems
         };
     }
 

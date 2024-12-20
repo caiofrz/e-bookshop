@@ -10,4 +10,5 @@ public interface IBookService
     Task<Book> CreateAsync(Book book);
     Task<Book> UpdateAsync(int id, Book updatedBook);
     Task DeleteAsync(int id);
+    Task<int> GetTotalCountAsync();
 }

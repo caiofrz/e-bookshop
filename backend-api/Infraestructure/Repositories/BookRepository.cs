@@ -66,4 +66,9 @@ public class BookRepository : IBookRepository
     {
         return await _context.Books.AnyAsync(b => b.ISBN == isbn);
     }
+
+    public async Task<int> GetTotalCountAsync()
+    {
+        return await _context.Books.CountAsync();
+    }
 }
