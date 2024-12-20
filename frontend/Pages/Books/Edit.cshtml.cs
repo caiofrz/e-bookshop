@@ -28,10 +28,7 @@ public class EditModel : PageModel
         {
             var json = await response.Content.ReadAsStringAsync();
 
-            var apiResponse = JsonSerializer.Deserialize<ApiResponseBook>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            var apiResponse = JsonSerializer.Deserialize<ApiResponseBook>(json);
 
             if (apiResponse?.Registro != null)
             {
@@ -57,11 +54,7 @@ public class EditModel : PageModel
 
         if (!response.IsSuccessStatusCode)
         {
-            var apiResponse = JsonSerializer.Deserialize<ApiErrorResponse>(await response.Content.ReadAsStringAsync(),
-                                                                           new JsonSerializerOptions
-                                                                           {
-                                                                               PropertyNameCaseInsensitive = true
-                                                                           });
+            var apiResponse = JsonSerializer.Deserialize<ApiErrorResponse>(await response.Content.ReadAsStringAsync());
             SetErrorDetails(apiResponse);
             return Page();
         }
@@ -79,11 +72,7 @@ public class EditModel : PageModel
             }
             else if (jsonElement.ValueKind == JsonValueKind.Array)
             {
-                var errorDetails = JsonSerializer.Deserialize<List<ErrorDetail>>(jsonElement.GetRawText(),
-                                                                        new JsonSerializerOptions
-                                                                        {
-                                                                            PropertyNameCaseInsensitive = true
-                                                                        });
+                var errorDetails = JsonSerializer.Deserialize<List<ErrorDetail>>(jsonElement.GetRawText());
                 foreach (var error in errorDetails)
                 {
                     var key = error.Key;
@@ -97,9 +86,4 @@ public class EditModel : PageModel
             }
         }
     }
-}
-
-public class ApiResponseBook : ApiResponse
-{
-    public Book Registro { get; set; }
 }

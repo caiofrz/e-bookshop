@@ -29,10 +29,7 @@ public class RegisterSaleModel : PageModel
         if (response.IsSuccessStatusCode)
         {
             var json = await response.Content.ReadAsStringAsync();
-            var apiResponse = JsonSerializer.Deserialize<ApiResponseListagem>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            var apiResponse = JsonSerializer.Deserialize<ApiResponseBooksList>(json);
 
             if (apiResponse?.Registro?.Books != null)
             {

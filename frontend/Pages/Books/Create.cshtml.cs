@@ -36,11 +36,7 @@ public class CreateModel : PageModel
 
         if (!response.IsSuccessStatusCode)
         {
-            var apiResponse = JsonSerializer.Deserialize<ApiErrorResponse>(await response.Content.ReadAsStringAsync(),
-                                                                           new JsonSerializerOptions
-                                                                           {
-                                                                               PropertyNameCaseInsensitive = true
-                                                                           });
+            var apiResponse = JsonSerializer.Deserialize<ApiErrorResponse>(await response.Content.ReadAsStringAsync());
 
             SetErrorDetails(apiResponse);
             return Page();
@@ -59,11 +55,7 @@ public class CreateModel : PageModel
             }
             else if (jsonElement.ValueKind == JsonValueKind.Array)
             {
-                var errorDetails = JsonSerializer.Deserialize<List<ErrorDetail>>(jsonElement.GetRawText(),
-                                                                        new JsonSerializerOptions
-                                                                        {
-                                                                            PropertyNameCaseInsensitive = true
-                                                                        });
+                var errorDetails = JsonSerializer.Deserialize<List<ErrorDetail>>(jsonElement.GetRawText());
                 foreach (var error in errorDetails)
                 {
                     var key = error.Key;

@@ -2,7 +2,6 @@ using System.Text.Json;
 using frontend.Application.Extensions;
 using frontend.Domain.Enums;
 using frontend.Domain.Models;
-using frontend.Pages.Books;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace frontend.Pages.Reports;
@@ -33,10 +32,7 @@ public class BooksReportModel : PageModel
         {
             var json = await response.Content.ReadAsStringAsync();
 
-            var apiResponse = JsonSerializer.Deserialize<ApiResponseListagem>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            var apiResponse = JsonSerializer.Deserialize<ApiResponseBooksList>(json);
 
             if (apiResponse?.Registro?.Books != null)
             {

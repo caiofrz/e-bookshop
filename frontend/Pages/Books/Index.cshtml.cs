@@ -33,10 +33,7 @@ public class IndexModel : PageModel
         {
             var json = await response.Content.ReadAsStringAsync();
 
-            var apiResponse = JsonSerializer.Deserialize<ApiResponseListagem>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            var apiResponse = JsonSerializer.Deserialize<ApiResponseBooksList>(json);
 
             if (apiResponse?.Registro?.Books != null)
             {
@@ -58,15 +55,4 @@ public class IndexModel : PageModel
 
         return Page();
     }
-}
-
-public class Registro
-{
-    public List<Book> Books { get; set; }
-    public Pagination Pagination { get; set; }
-}
-
-public class ApiResponseListagem : ApiResponse
-{
-    public Registro Registro { get; set; }
 }

@@ -2,7 +2,6 @@ using System.Text.Json;
 using frontend.Application.Extensions;
 using frontend.Domain.Enums;
 using frontend.Domain.Models;
-using frontend.Pages.Books;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace frontend.Pages.Reports;
@@ -43,10 +42,7 @@ public class SalesReportModel : PageModel
         {
             var json = await response.Content.ReadAsStringAsync();
 
-            var apiResponse = JsonSerializer.Deserialize<ApiResponseSalesListagem>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            var apiResponse = JsonSerializer.Deserialize<ApiResponseSalesList>(json);
 
             if (apiResponse?.Registro?.Sales != null)
             {
@@ -56,28 +52,3 @@ public class SalesReportModel : PageModel
     }
 }
 
-public class Registro
-{
-    public List<SaleResponse> Sales { get; set; }
-    public Pagination Pagination { get; set; }
-}
-
-public class ApiResponseSalesListagem : ApiResponse
-{
-    public Registro Registro { get; set; }
-}
-
-public class SaleResponse
-{
-    public int Id { get; set; }
-    public DateTime SaleDate { get; set; }
-    public List<SaleItemResponse> Items { get; set; }
-    public decimal Total { get; set; }
-}
-
-public class SaleItemResponse
-{
-    public int Id { get; set; }
-    public Book Book { get; set; }
-    public int Quantity { get; set; }
-}
