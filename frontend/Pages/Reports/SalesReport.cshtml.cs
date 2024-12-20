@@ -1,4 +1,6 @@
 using System.Text.Json;
+using frontend.Application.Extensions;
+using frontend.Domain.Enums;
 using frontend.Domain.Models;
 using frontend.Pages.Books;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -31,7 +33,8 @@ public class SalesReportModel : PageModel
             queryParams.Add($"endDate={endDate.Value:yyyy-MM-ddTHH:mm:ss.fffZ}");
 
         var queryString = string.Join("&", queryParams);
-        var uri = string.IsNullOrEmpty(queryString) ? "api/sales" : $"api/sales?{queryString}";
+        var baseUri = ApiEndpointEnum.Sales.Description();
+        var uri = string.IsNullOrEmpty(queryString) ? baseUri : $"{baseUri}?{queryString}";
 
         var client = _httpClientFactory.CreateClient("API");
         var response = await client.GetAsync(uri);

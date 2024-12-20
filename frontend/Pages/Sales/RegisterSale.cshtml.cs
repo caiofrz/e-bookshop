@@ -1,4 +1,6 @@
 using System.Text.Json;
+using frontend.Application.Extensions;
+using frontend.Domain.Enums;
 using frontend.Domain.Models;
 using frontend.Pages.Books;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +22,9 @@ public class RegisterSaleModel : PageModel
 
     public async Task OnGetAsync()
     {
+        var uri = ApiEndpointEnum.Books.Description();
         var client = _httpClientFactory.CreateClient("API");
-        var response = await client.GetAsync("api/books");
+        var response = await client.GetAsync(uri);
 
         if (response.IsSuccessStatusCode)
         {
@@ -58,8 +61,9 @@ public class RegisterSaleModel : PageModel
             Total = Total
         };
 
+        var uri = ApiEndpointEnum.Sales.Description();
         var client = _httpClientFactory.CreateClient("API");
-        var response = await client.PostAsJsonAsync("api/sales", sale);
+        var response = await client.PostAsJsonAsync(uri, sale);
 
         if (response.IsSuccessStatusCode)
         {

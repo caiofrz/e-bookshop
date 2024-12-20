@@ -1,4 +1,6 @@
 using System.Text.Json;
+using frontend.Application.Extensions;
+using frontend.Domain.Enums;
 using frontend.Domain.Models;
 using frontend.Pages.Books;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,7 +24,7 @@ public class BooksReportModel : PageModel
         MaxStockLimit = maxStockLimit;
 
         var client = _httpClientFactory.CreateClient("API");
-        var uri = "api/books";
+        var uri = ApiEndpointEnum.Books.Description();
         uri += maxStockLimit > 0 ? $"?maxStockLimit={maxStockLimit}" : "";
 
         var response = await client.GetAsync(uri);

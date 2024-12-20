@@ -1,3 +1,5 @@
+using frontend.Application.Extensions;
+using frontend.Domain.Enums;
 using frontend.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -28,8 +30,9 @@ public class CreateModel : PageModel
             Authors = JsonSerializer.Deserialize<List<string>>(authors)
         };
 
+        var uri = ApiEndpointEnum.Books.Description();
         var client = _httpClientFactory.CreateClient("API");
-        var response = await client.PostAsJsonAsync("api/books", Book);
+        var response = await client.PostAsJsonAsync(uri, Book);
 
         if (!response.IsSuccessStatusCode)
         {

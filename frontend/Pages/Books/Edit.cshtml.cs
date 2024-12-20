@@ -1,3 +1,5 @@
+using frontend.Application.Extensions;
+using frontend.Domain.Enums;
 using frontend.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,16 +11,18 @@ public class EditModel : PageModel
 {
     private readonly IHttpClientFactory _httpClientFactory;
     public Book Book { get; set; }
+    private readonly string baseUri;
 
     public EditModel(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
+        baseUri = ApiEndpointEnum.Books.Description();
     }
 
     public async Task OnGetAsync(int id)
     {
         var client = _httpClientFactory.CreateClient("API");
-        var response = await client.GetAsync($"api/books/{id}");
+        var response = await client.GetAsync($"{baseUri}/{id}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -49,7 +53,7 @@ public class EditModel : PageModel
         };
 
         var client = _httpClientFactory.CreateClient("API");
-        var response = await client.PutAsJsonAsync($"api/books/{id}", Book);
+        var response = await client.PutAsJsonAsync($"{baseUri}/{id}", Book);
 
         if (!response.IsSuccessStatusCode)
         {

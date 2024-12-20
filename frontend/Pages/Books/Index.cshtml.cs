@@ -1,3 +1,5 @@
+using frontend.Application.Extensions;
+using frontend.Domain.Enums;
 using frontend.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,7 +10,7 @@ namespace frontend.Pages.Books;
 public class IndexModel : PageModel
 {
     private readonly IHttpClientFactory _httpClientFactory;
-
+    private readonly string baseUri;
     public List<Book> Books { get; set; }
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 10;
@@ -18,13 +20,14 @@ public class IndexModel : PageModel
     {
         _httpClientFactory = httpClientFactory;
         Books = new();
+        baseUri = ApiEndpointEnum.Books.Description();
     }
 
     public async Task OnGetAsync(int pageNumber = 1)
     {
         Page = pageNumber;
         var client = _httpClientFactory.CreateClient("API");
-        var response = await client.GetAsync($"api/books?page={Page}&pageSize={PageSize}");
+        var response = await client.GetAsync($"{baseUri}?page={Page}&pageSize={PageSize}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -46,7 +49,7 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
         var client = _httpClientFactory.CreateClient("API");
-        var response = await client.DeleteAsync($"api/books/{id}");
+        var response = await client.DeleteAsync($"{baseUri}/{id}");
 
         if (response.IsSuccessStatusCode)
         {
