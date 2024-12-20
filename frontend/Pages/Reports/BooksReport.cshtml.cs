@@ -18,7 +18,7 @@ public class BooksReportModel : PageModel
     public IEnumerable<Book> Books { get; set; }
     public int? MaxStockLimit { get; set; }
     public int Page { get; set; } = 1;
-    public int PageSize { get; set; } = 3;
+    public int PageSize { get; set; } = 10;
     public int TotalPages { get; set; }
 
     public async Task OnGetAsync(int? maxStockLimit, int pageNumber = 1)
