@@ -38,19 +38,41 @@ public class CreateModel : PageModel
                                                                            {
                                                                                PropertyNameCaseInsensitive = true
                                                                            });
-            foreach (var error in apiResponse?.Detalhe)
-            {
-                var key = error.Key;
-                var messages = error.Value;
 
-                foreach (var message in messages)
-                {
-                    ModelState.AddModelError(key, message);
-                }
-            }
+            SetErrorDetails(apiResponse);
             return Page();
         }
         return RedirectToPage("/Books/Index");
+    }
+
+    private void SetErrorDetails(ApiErrorResponse apiResponse)
+    {
+        if (apiResponse?.Detalhe is JsonElement jsonElement)
+        {
+            if (jsonElement.ValueKind == JsonValueKind.String)
+            {
+                var errorMessage = jsonElement.GetString();
+                ModelState.AddModelError("Error", errorMessage);
+            }
+            else if (jsonElement.ValueKind == JsonValueKind.Array)
+            {
+                var errorDetails = JsonSerializer.Deserialize<List<ErrorDetail>>(jsonElement.GetRawText(),
+                                                                        new JsonSerializerOptions
+                                                                        {
+                                                                            PropertyNameCaseInsensitive = true
+                                                                        });
+                foreach (var error in errorDetails)
+                {
+                    var key = error.Key;
+                    var messages = error.Value;
+
+                    foreach (var message in messages)
+                    {
+                        ModelState.AddModelError(key, message);
+                    }
+                }
+            }
+        }
     }
 }
 

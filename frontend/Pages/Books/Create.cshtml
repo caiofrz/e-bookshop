@@ -5,10 +5,20 @@
 }
 
 <h2>Cadastro</h2>
+
+@if (ModelState.ContainsKey("Error"))
+{
+    <div class="text-danger">
+        @foreach (var error in ModelState["Error"].Errors)
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
 <form method="post">
     <div class="mb-3">
         <label for="Title" class="form-label">Título</label>
-        <input type="text" class="form-control" id="Title" name="Title" value="@Model.Book.Title" required/>
+        <input type="text" class="form-control" id="Title" name="Title" value="@Model.Book.Title" required />
         @if (ModelState.ContainsKey("Title"))
         {
             <div class="text-danger">
@@ -47,7 +57,8 @@
     </div>
     <div class="mb-3">
         <label for="Price" class="form-label">Preço</label>
-        <input type="text" step="0.01" class="form-control" id="Price" name="Price" value="@Model.Book.Price" required />
+        <input type="text" step="0.01" class="form-control" id="Price" name="Price" value="@Model.Book.Price"
+            required />
         @if (ModelState.ContainsKey("Price"))
         {
             <div class="text-danger">
@@ -60,7 +71,8 @@
     </div>
     <div class="mb-3">
         <label for="StockQuantity" class="form-label">Estoque</label>
-        <input type="number" class="form-control" id="StockQuantity" name="StockQuantity" value="@Model.Book.StockQuantity" required />
+        <input type="number" class="form-control" id="StockQuantity" name="StockQuantity"
+            value="@Model.Book.StockQuantity" required />
         @if (ModelState.ContainsKey("StockQuantity"))
         {
             <div class="text-danger">
@@ -77,10 +89,11 @@
             @for (int i = 0; i < Model.Book.Authors.Count; i++)
             {
                 <div class="input-group mb-2">
-                    <input type="text" class="form-control author-input" name="Book.Authors[@i]" value="@Model.Book.Authors[i]" placeholder="Autor" />
+                    <input type="text" class="form-control author-input" name="Book.Authors[@i]"
+                        value="@Model.Book.Authors[i]" placeholder="Autor" />
                     <button type="button" class="btn btn-danger remove-author">Remover</button>
                 </div>
-            }    
+            }
         </div>
         <button type="button" id="add-author" class="btn btn-sm btn-primary">Adicionar Autor</button>
         @if (ModelState.ContainsKey("Authors"))
@@ -122,7 +135,7 @@
             }
         });
 
-         document.getElementById('Price').addEventListener('input', function (event) {
+        document.getElementById('Price').addEventListener('input', function (event) {
             let value = event.target.value;
 
             // Regex para permitir apenas números com até 2 casas decimais
