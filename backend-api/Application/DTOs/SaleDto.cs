@@ -7,13 +7,14 @@ public class SaleResponseDto
     public IEnumerable<SaleDto> Sales { get; set; }
     public PaginationResponseDto Pagination { get; set; } = new();
 
-    public SaleResponseDto(IEnumerable<SaleDto> sales, params int[] pagination)
+    public SaleResponseDto(IEnumerable<SaleDto> sales, int page, int pageSize, int totalItems)
     {
         Sales = sales;
         Pagination = new()
         {
-            Page = pagination[0],
-            PageSize = pagination[1],
+            Page = page,
+            PageSize = pageSize,
+            TotalItems = totalItems
         };
     }
 }

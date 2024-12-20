@@ -17,14 +17,18 @@ public class BooksReportModel : PageModel
 
     public IEnumerable<Book> Books { get; set; }
     public int? MaxStockLimit { get; set; }
+    public int Page { get; set; } = 1;
+    public int PageSize { get; set; } = 3;
+    public int TotalPages { get; set; }
 
-    public async Task OnGetAsync(int? maxStockLimit)
+    public async Task OnGetAsync(int? maxStockLimit, int pageNumber = 1)
     {
+        Page = pageNumber;
         MaxStockLimit = maxStockLimit;
 
         var client = _httpClientFactory.CreateClient("API");
-        var uri = ApiEndpointEnum.Books.Description();
-        uri += maxStockLimit > 0 ? $"?maxStockLimit={maxStockLimit}" : "";
+        var uri = $"{ApiEndpointEnum.Books.Description()}?page={Page}&pageSize={PageSize}";
+        uri += maxStockLimit > 0 ? $"&maxStockLimit={maxStockLimit}" : "";
 
         var response = await client.GetAsync(uri);
 
@@ -37,6 +41,7 @@ public class BooksReportModel : PageModel
             if (apiResponse?.Registro?.Books != null)
             {
                 Books = apiResponse.Registro.Books;
+                TotalPages = (int)Math.Ceiling((double)apiResponse.Registro.Pagination.TotalItems / PageSize);
             }
         }
     }

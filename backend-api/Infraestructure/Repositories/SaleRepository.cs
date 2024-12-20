@@ -24,7 +24,8 @@ public class SaleRepository : ISaleRepository
             query = query.Where(sale => sale.SaleDate >= queryParams.StartDate
                                         && sale.SaleDate <= queryParams.EndDate);
 
-        return await query.Paginar(queryParams.Page, queryParams.PageSize)
+        return await query.OrderByDescending(sale => sale.SaleDate)
+                          .Paginar(queryParams.Page, queryParams.PageSize)
                           .Include(sale => sale.Items)
                           .ThenInclude(item => item.Book)
                           .AsNoTracking()
@@ -36,5 +37,10 @@ public class SaleRepository : ISaleRepository
         _context.Sales.Add(sale);
         await _context.SaveChangesAsync();
         return sale;
+    }
+
+    public async Task<int> GetTotalCountAsync()
+    {
+        return await _context.Sales.CountAsync();
     }
 }

@@ -62,4 +62,9 @@ public class SaleService : ISaleService
             await _bookRepository.UpdateAsync(book);
         }
     }
+
+    public async Task<int> GetTotalCountAsync()
+    {
+        return await _saleRepository.GetTotalCountAsync();
+    }
 }

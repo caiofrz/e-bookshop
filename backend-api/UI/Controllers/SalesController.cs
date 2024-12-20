@@ -39,7 +39,8 @@ public class SalesController : ControllerBase
     {
         var sales = await _saleService.GetAllAsync(queryParams);
         var salesList = sales?.Select(_mapper.Map<SaleDto>);
-        var salesDto = new SaleResponseDto(salesList, queryParams.Page, queryParams.PageSize);
+        var countSales = await _saleService.GetTotalCountAsync();
+        var salesDto = new SaleResponseDto(salesList, queryParams.Page, queryParams.PageSize, countSales);
 
         var response = ApiResponseHelper.CriarRespostaSucesso((int)HttpStatusCode.OK,
                                                               "Vendas recuperados com sucesso",

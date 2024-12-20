@@ -7,4 +7,5 @@ public interface ISaleRepository
 {
     Task<IEnumerable<Sale>> GetAllAsync(SalesQueryParams queryParams);
     Task<Sale> RegisterSaleAsync(Sale sale);
+    Task<int> GetTotalCountAsync();
 }
