@@ -1,3 +1,4 @@
+using frontend.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
@@ -54,33 +55,6 @@ public class IndexModel : PageModel
 
         return Page();
     }
-}
-
-
-public class Book
-{
-    public int Id { get; set; }
-    public string Isbn { get; set; }
-    public string Title { get; set; }
-    public List<string> Authors { get; set; } = new();
-    public string Category { get; set; }
-    public decimal Price { get; set; }
-    public int StockQuantity { get; set; }
-}
-
-public class Pagination
-{
-    public int Page { get; set; }
-    public int PageSize { get; set; }
-    public int TotalItems { get; set; }
-}
-
-
-public class ApiResponse
-{
-    public string Titulo { get; set; }
-    public int Status { get; set; }
-    public string Detalhe { get; set; }
 }
 
 public class Registro

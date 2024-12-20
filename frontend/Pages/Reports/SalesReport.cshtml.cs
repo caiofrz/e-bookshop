@@ -1,4 +1,5 @@
 using System.Text.Json;
+using frontend.Domain.Models;
 using frontend.Pages.Books;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -50,13 +51,6 @@ public class SalesReportModel : PageModel
             }
         }
     }
-}
-
-public class ApiResponse
-{
-    public string Titulo { get; set; }
-    public int Status { get; set; }
-    public string Detalhe { get; set; }
 }
 
 public class Registro

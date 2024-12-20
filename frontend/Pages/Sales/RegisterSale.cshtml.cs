@@ -1,4 +1,5 @@
 using System.Text.Json;
+using frontend.Domain.Models;
 using frontend.Pages.Books;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -70,15 +71,3 @@ public class RegisterSaleModel : PageModel
     }
 }
 
-public class Sale
-{
-    public List<SaleItem> Items { get; set; }
-    public decimal Total { get; set; }
-}
-
-public class SaleItem
-{
-    public int BookId { get; set; }
-    public int Quantity { get; set; }
-    public decimal Price { get; set; }
-}
