@@ -28,7 +28,7 @@ E-Bookshop é um sistema desenvolvido para o gerenciamento de uma livraria. Este
 Para rodar o código localmente, siga os seguintes passos:
 
 1. **Processo de Instalação**
-   - Clone o repositório: `git clone https://startdotnet@dev.azure.com/startdotnet/Capgemini.Start.Dotnet/_git/e-bookshop`
+   - Clone o repositório: `git clone https://github.com/caiofrz/e-bookshop.git`
    - Navegue até o diretório do projeto: `cd e-bookshop`
 
 2. **Dependências de Software**
